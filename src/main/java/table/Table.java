@@ -28,6 +28,10 @@ public class Table {
 		return tableFields;
 	}
 
+	public List<TableInstance> getTableInstances() {
+		return tableInstances;
+	}
+
 	public Set<Table> getForeignKeyTables() {
 		return foreignKeyTables;
 	}
@@ -47,19 +51,21 @@ public class Table {
 		// Check input data
 		if (tableInstance.getFields() == null)
 			return false;
+
 		if (tableInstance.getFields().size() != this.tableFields.size())
 			return false;
+
 		for (int iType = 0; iType < tableInstance.getFields().size(); ++iType) {
 			if (tableInstance.getFields().get(iType).getType() != this.tableFields.get(iType).getType())
 				return false;
 		}
 
-		for(int i = 0; i < tableInstances.size(); ++i){
-			if(tableInstances.get(i).equals(tableInstance)){
-				return false;
-			}
-		}
-		
+		// for(int i = 0; i < tableInstances.size(); ++i){
+		// if(tableInstances.get(i).equals(tableInstance)){
+		// return false;
+		// }
+		// }
+
 		// OK. Add new table instance
 		tableInstances.add(tableInstance);
 		return true;
@@ -85,6 +91,19 @@ public class Table {
 
 	public int hashCode() {
 		return tableName.hashCode();
+	}
+
+	// Unnecessary function just for lab :)
+	public void deleteDuplicates() {
+		Set<TableInstance> tmpTi = new HashSet<TableInstance>();
+		for (int i = 0; i < tableInstances.size(); ++i) {
+			TableInstance tmpTb = tableInstances.get(i);
+			if (tmpTi.contains(tmpTb)) {
+				tableInstances.remove(i);
+			} else {
+				tmpTi.add(tmpTb);
+			}
+		}
 	}
 
 	@Override

@@ -31,6 +31,7 @@ public class UserFriendlyConsoleInterface {
 		System.out.println("2. Remove instance");
 		// System.out.println("3. Choose Table");
 		System.out.println("4. Show table\n");
+		System.out.println("5. Delete duplicates\n");
 		System.out.println("-1. Exit");
 		int res = in.nextInt();
 		in.nextLine();
@@ -78,6 +79,11 @@ public class UserFriendlyConsoleInterface {
 
 		case 4: {
 			System.out.println(table);
+			return true;
+		}
+		case 5:{
+			table.deleteDuplicates();
+			System.out.println("Duplicates are deleted!");
 			return true;
 		}
 		case -1: {

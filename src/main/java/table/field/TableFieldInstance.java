@@ -27,8 +27,7 @@ public class TableFieldInstance extends TableField {
 			case CHAR:
 				return ((Character) this.data).equals((Character) tmpTableFieldInstance.data);
 			case STRING:
-				// FIXME
-				return false;
+				return ((String) this.data).equals((String) tmpTableFieldInstance.data);
 			case INTEGER:
 				return ((Integer) this.data).equals((Integer) tmpTableFieldInstance.data);
 			case LONGINT:
