@@ -1,15 +1,15 @@
-package db.table.field;
+package db.table.field.base;
 
-public class TableFieldInstance extends TableField{
+public class BaseFieldInstance extends BaseField{
 
 	private Object data;
 
-	public TableFieldInstance(String tableFieldName, Object data, TableFieldType type) {
+	public BaseFieldInstance(String tableFieldName, Object data, BaseFieldType type) {
 		super(tableFieldName, type);
 		this.data = data;
 	}
 
-	public void setType(TableFieldType type) {
+	public void setType(BaseFieldType type) {
 		this.type = type;
 	}
 
@@ -18,8 +18,8 @@ public class TableFieldInstance extends TableField{
 			return false;
 		if (this == object)
 			return true;
-		if (object instanceof TableFieldInstance) {
-			TableFieldInstance tmpTableFieldInstance = (TableFieldInstance) object;
+		if (object instanceof BaseFieldInstance) {
+			BaseFieldInstance tmpTableFieldInstance = (BaseFieldInstance) object;
 			if (!super.equals(object)) {
 				return false;
 			}

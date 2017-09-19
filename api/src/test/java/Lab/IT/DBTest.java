@@ -3,9 +3,9 @@ package Lab.IT;
 import db.DB;
 import db.table.Table;
 import db.table.TableInstance;
-import db.table.field.TableField;
-import db.table.field.TableFieldInstance;
-import db.table.field.TableFieldType;
+import db.table.field.base.BaseField;
+import db.table.field.base.BaseFieldInstance;
+import db.table.field.base.BaseFieldType;
 import junit.framework.TestCase;
 
 public class DBTest extends TestCase {
@@ -18,8 +18,8 @@ public class DBTest extends TestCase {
 
 	private Table createTestTable(String tableName) throws Exception {
 		Table table = Table.tableBuilder().setTableName(tableName)
-				.addTableField(new TableField("field1", TableFieldType.INTEGER))
-				.addTableField(new TableField("field2", TableFieldType.REAL)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.INTEGER))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.REAL)).build();
 		assertTrue(table != null);
 		return table;
 	}
@@ -27,7 +27,7 @@ public class DBTest extends TestCase {
 	public void testContainsDbTable() throws Exception {
 		Table table1 = createTestTable("table1");
 		Table table2 = Table.tableBuilder().setTableName("table1")
-				.addTableField(new TableField("field1", TableFieldType.LONGINT)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.LONGINT)).build();
 		db.createTable(table1);
 		assertTrue(db.contains(table2.getTableName()) == true);
 		Table table3 = createTestTable("table2");
@@ -69,31 +69,31 @@ public class DBTest extends TestCase {
 	public void testTableInstanceDb() throws Exception {
 
 		Table MainTable = Table.tableBuilder().setTableName("MainTable")
-				.addTableField(new TableField("field1", TableFieldType.INTEGER))
-				.addTableField(new TableField("field2", TableFieldType.REAL)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.INTEGER))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.REAL)).build();
 
 		Table OneToMainTable = Table.tableBuilder().setTableName("OneToMainTable")
-				.addTableField(new TableField("field1", TableFieldType.REAL))
-				.addTableField(new TableField("field2", TableFieldType.CHAR)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.REAL))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.CHAR)).build();
 
 		MainTable.addForeignKeyTable(OneToMainTable);
 		OneToMainTable.addForeignKeyTable(MainTable);
 
 		// Add TableInstance
 		TableInstance tiForMainTable_1 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1", new Integer(15), TableFieldType.INTEGER))
-				.addTableFieldInstance(new TableFieldInstance("tf2", new Double(15.5), TableFieldType.REAL)).build();
+				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(15), BaseFieldType.INTEGER))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2", new Double(15.5), BaseFieldType.REAL)).build();
 		TableInstance tiForMainTable_2 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1", new Integer(17), TableFieldType.INTEGER))
-				.addTableFieldInstance(new TableFieldInstance("tf2", new Double(17.5), TableFieldType.REAL)).build();
+				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(17), BaseFieldType.INTEGER))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2", new Double(17.5), BaseFieldType.REAL)).build();
 
 		TableInstance tiForOneToMainTable_1 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1_1", new Double(5.23), TableFieldType.REAL))
-				.addTableFieldInstance(new TableFieldInstance("tf2_2", new Character('a'), TableFieldType.CHAR))
+				.addBaseFieldInstance(new BaseFieldInstance("tf1_1", new Double(5.23), BaseFieldType.REAL))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2_2", new Character('a'), BaseFieldType.CHAR))
 				.build();
 		TableInstance tiForOneToMainTable_2 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1_1", new Double(4.23), TableFieldType.REAL))
-				.addTableFieldInstance(new TableFieldInstance("tf2_2", new Character('b'), TableFieldType.CHAR))
+				.addBaseFieldInstance(new BaseFieldInstance("tf1_1", new Double(4.23), BaseFieldType.REAL))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2_2", new Character('b'), BaseFieldType.CHAR))
 				.build();
 
 		MainTable.addTableInstance(tiForMainTable_1);

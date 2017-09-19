@@ -1,27 +1,27 @@
 package Lab.IT;
 
-import db.table.field.TableFieldInstance;
-import db.table.field.TableFieldType;
+import db.table.field.base.BaseFieldInstance;
+import db.table.field.base.BaseFieldType;
 import junit.framework.TestCase;
 
 public class TableFieldTest extends TestCase {
 
 	public void testEqualsTableField() {
-		TableFieldInstance tf1 = new TableFieldInstance("tf1", new Integer(12), TableFieldType.INTEGER);
-		TableFieldInstance tf1_1 = new TableFieldInstance("tf1", new Integer(12), TableFieldType.INTEGER);
-		TableFieldInstance tf2 = new TableFieldInstance("tf2", new Integer(15), TableFieldType.INTEGER);
+		BaseFieldInstance tf1 = new BaseFieldInstance("tf1", new Integer(12), BaseFieldType.INTEGER);
+		BaseFieldInstance tf1_1 = new BaseFieldInstance("tf1", new Integer(12), BaseFieldType.INTEGER);
+		BaseFieldInstance tf2 = new BaseFieldInstance("tf2", new Integer(15), BaseFieldType.INTEGER);
 
-		TableFieldInstance tf3 = new TableFieldInstance("tf3", new Character('a'), TableFieldType.CHAR);
-		TableFieldInstance tf3_3 = new TableFieldInstance("tf3", new Character('a'), TableFieldType.CHAR);
-		TableFieldInstance tf4 = new TableFieldInstance("tf4", new Character('b'), TableFieldType.CHAR);
+		BaseFieldInstance tf3 = new BaseFieldInstance("tf3", new Character('a'), BaseFieldType.CHAR);
+		BaseFieldInstance tf3_3 = new BaseFieldInstance("tf3", new Character('a'), BaseFieldType.CHAR);
+		BaseFieldInstance tf4 = new BaseFieldInstance("tf4", new Character('b'), BaseFieldType.CHAR);
 
-		TableFieldInstance tf5 = new TableFieldInstance("tf5", new Double(1.5), TableFieldType.REAL);
-		TableFieldInstance tf5_5 = new TableFieldInstance("tf5", new Double(1.5), TableFieldType.REAL);
-		TableFieldInstance tf6 = new TableFieldInstance("tf6", new Double(2.5), TableFieldType.REAL);
+		BaseFieldInstance tf5 = new BaseFieldInstance("tf5", new Double(1.5), BaseFieldType.REAL);
+		BaseFieldInstance tf5_5 = new BaseFieldInstance("tf5", new Double(1.5), BaseFieldType.REAL);
+		BaseFieldInstance tf6 = new BaseFieldInstance("tf6", new Double(2.5), BaseFieldType.REAL);
 
-		TableFieldInstance tf7 = new TableFieldInstance("tf7", new Long(15), TableFieldType.LONGINT);
-		TableFieldInstance tf7_7 = new TableFieldInstance("tf7", new Long(15), TableFieldType.LONGINT);
-		TableFieldInstance tf8 = new TableFieldInstance("tf8", new Long(17), TableFieldType.LONGINT);
+		BaseFieldInstance tf7 = new BaseFieldInstance("tf7", new Long(15), BaseFieldType.LONGINT);
+		BaseFieldInstance tf7_7 = new BaseFieldInstance("tf7", new Long(15), BaseFieldType.LONGINT);
+		BaseFieldInstance tf8 = new BaseFieldInstance("tf8", new Long(17), BaseFieldType.LONGINT);
 
 		// FIXME Add HTML
 

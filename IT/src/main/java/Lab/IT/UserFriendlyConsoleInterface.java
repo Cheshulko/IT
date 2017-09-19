@@ -9,9 +9,11 @@ import db.table.Table;
 import db.table.TableInstance;
 import db.table.Table.TableBuilder;
 import db.table.TableInstance.TableInstanceBuilder;
-import db.table.field.TableField;
-import db.table.field.TableFieldInstance;
-import db.table.field.TableFieldType;
+import db.table.field.base.BaseField;
+import db.table.field.base.BaseFieldInstance;
+import db.table.field.base.BaseFieldType;
+import db.table.field.interval.IntervalField;
+import db.table.field.interval.IntervalFieldStringInstance;
 
 public class UserFriendlyConsoleInterface {
 
@@ -39,38 +41,50 @@ public class UserFriendlyConsoleInterface {
 		switch (res) {
 		case 1: {
 			TableInstanceBuilder tableInstanceBuilder = TableInstance.tableInstanceBuilder();
-			for (int i = 0; i < table.getTableFields().size(); ++i) {
-				String name = table.getTableFields().get(i).getTableFieldName();
-				TableFieldType type = table.getTableFields().get(i).getType();
+			for (int i = 0; i < table.getTableBaseFields().size(); ++i) {
+				String name = table.getTableBaseFields().get(i).getTableFieldName();
+				BaseFieldType type = table.getTableBaseFields().get(i).getType();
 				System.out.println("Enter value for field " + name + " (" + type + "): ");
 				String inputData = in.nextLine();
 				switch (type) {
 				case CHAR:
-					tableInstanceBuilder.addTableFieldInstance(new TableFieldInstance(name, inputData.charAt(0), type));
+					tableInstanceBuilder.addBaseFieldInstance(new BaseFieldInstance(name, inputData.charAt(0), type));
 					break;
 				case STRING:
-					tableInstanceBuilder.addTableFieldInstance(new TableFieldInstance(name, inputData, type));
+					tableInstanceBuilder.addBaseFieldInstance(new BaseFieldInstance(name, inputData, type));
 					break;
 				case INTEGER:
-					tableInstanceBuilder.addTableFieldInstance(
-							new TableFieldInstance(name, new Integer(Integer.parseInt(inputData)), type));
+					tableInstanceBuilder.addBaseFieldInstance(
+							new BaseFieldInstance(name, new Integer(Integer.parseInt(inputData)), type));
 					break;
 				case LONGINT:
-					tableInstanceBuilder.addTableFieldInstance(
-							new TableFieldInstance(name, new Long(Long.parseLong(inputData)), type));
+					tableInstanceBuilder.addBaseFieldInstance(
+							new BaseFieldInstance(name, new Long(Long.parseLong(inputData)), type));
 					break;
 				case REAL:
-					tableInstanceBuilder.addTableFieldInstance(
-							new TableFieldInstance(name, new Double(Double.parseDouble(inputData)), type));
+					tableInstanceBuilder.addBaseFieldInstance(
+							new BaseFieldInstance(name, new Double(Double.parseDouble(inputData)), type));
 					break;
 				default:
 					return false;
 				}
 			}
+
+			for (int i = 0; i < table.getTableIntervalFields().size(); ++i) {
+				IntervalField ifield = table.getTableIntervalFields().get(i);
+				String name = ifield.getTableFieldName();
+				// Int type = table.getTableBaseFields().get(i).getType();
+				System.out.println("Enter value for field " + name + " (" + IntervalField.type + " St: "
+						+ ifield.getStartIntvFrom() + " En: " + ifield.getEndIntvTo() + "): ");
+				String inputData = in.nextLine();
+				tableInstanceBuilder.addIntervalFieldInstance(new IntervalFieldStringInstance(name, inputData));
+			}
+
 			try {
 				TableInstance tableInstance = tableInstanceBuilder.build();
-				table.addTableInstance(tableInstance);
-				System.out.println("Table instance is successful added to table");
+				Boolean OK = table.addTableInstance(tableInstance);
+				if(OK) System.out.println("Table instance is successful added to table");
+				else System.out.println("Wrong input!");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -82,7 +96,7 @@ public class UserFriendlyConsoleInterface {
 			System.out.println(table);
 			return true;
 		}
-		case 5:{
+		case 5: {
 			table.deleteDuplicates();
 			System.out.println("Duplicates are deleted!");
 			return true;
@@ -121,19 +135,27 @@ public class UserFriendlyConsoleInterface {
 				return true;
 			}
 			System.out.println("Ented for each field its type and value");
-			System.out.println("Avalible types: INTEGER REAL CHAR LONGINT STRING");
+			System.out.println("Avalible types: INTEGER REAL CHAR LONGINT STRING CHARINTV");
 			TableBuilder newTable = Table.tableBuilder().setTableName(tableName);
 			for (int i = 0; i < number; ++i) {
 				System.out.println("Field name: ");
 				String inputName = in.nextLine();
 				System.out.println("Type: ");
 				String inputType = in.nextLine();
-				if (!TableFieldType.contains(inputType)) {
+				if (BaseFieldType.contains(inputType)) {
+					newTable = newTable
+							.addTableBaseField(new BaseField(inputName, BaseFieldType.getTableFieldType(inputType)));
+				} else if (IntervalField.type.equals(inputType)) {
+					System.out.println("Start iterval char: ");
+					String st = in.nextLine();
+					System.out.println("asdasd : " + st.charAt(0));
+					System.out.println("End iterval char: ");
+					String en = in.nextLine();
+					System.out.println("asdasd : " + en.charAt(0));
+					newTable = newTable.addTableIntervalField(new IntervalField(st.charAt(0), en.charAt(0), inputName));
+				} else {
 					System.out.println("Wrong type. Try again");
 					return true;
-				} else {
-					newTable = newTable
-							.addTableField(new TableField(inputName, TableFieldType.getTableFieldType(inputType)));
 				}
 			}
 			try {

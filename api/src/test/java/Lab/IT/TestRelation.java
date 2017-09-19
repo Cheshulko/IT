@@ -1,8 +1,8 @@
 package Lab.IT;
 
 import db.table.Table;
-import db.table.field.TableField;
-import db.table.field.TableFieldType;
+import db.table.field.base.BaseField;
+import db.table.field.base.BaseFieldType;
 import junit.framework.TestCase;
 
 public class TestRelation extends TestCase {
@@ -17,17 +17,17 @@ public class TestRelation extends TestCase {
 
 	public void testRelationForTable() throws Exception {
 		Table one = Table.tableBuilder().setTableName("One")
-				.addTableField(new TableField("field1", TableFieldType.INTEGER))
-				.addTableField(new TableField("field2", TableFieldType.CHAR)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.INTEGER))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.CHAR)).build();
 		Table two = Table.tableBuilder().setTableName("Two")
-				.addTableField(new TableField("field1", TableFieldType.INTEGER))
-				.addTableField(new TableField("field2", TableFieldType.STRING)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.INTEGER))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.STRING)).build();
 		Table two_first = Table.tableBuilder().setTableName("Two_firt")
-				.addTableField(new TableField("field1", TableFieldType.INTEGER))
-				.addTableField(new TableField("field2", TableFieldType.STRING)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.INTEGER))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.STRING)).build();
 		Table two_second = Table.tableBuilder().setTableName("Two_second")
-				.addTableField(new TableField("field1", TableFieldType.INTEGER))
-				.addTableField(new TableField("field2", TableFieldType.STRING)).build();
+				.addTableBaseField(new BaseField("field1", BaseFieldType.INTEGER))
+				.addTableBaseField(new BaseField("field2", BaseFieldType.STRING)).build();
 
 		// Test One to One relation
 		one.addForeignKeyTable(two);

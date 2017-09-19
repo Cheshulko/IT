@@ -5,13 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import db.table.field.TableField;
+import db.table.field.base.BaseField;
+import db.table.field.interval.IntervalField;
 
 public class Table {
 	// Table name field
 	private String tableName = null;
 	// Fix structure of a table
-	private List<TableField> tableFields = null;
+	private List<BaseField> tableBaseFields = null;
+	//
+	private List<IntervalField> tableIntervalFields = null;
 	// Set of foreign key tables
 	private Set<Table> foreignKeyTables = null;
 	// List of table instances
@@ -24,8 +27,12 @@ public class Table {
 		return tableName;
 	}
 
-	public List<TableField> getTableFields() {
-		return tableFields;
+	public List<BaseField> getTableBaseFields() {
+		return tableBaseFields;
+	}
+	
+	public List<IntervalField> getTableIntervalFields() {
+		return tableIntervalFields;
 	}
 
 	public List<TableInstance> getTableInstances() {
@@ -49,14 +56,23 @@ public class Table {
 	 */
 	public Boolean addTableInstance(TableInstance tableInstance) {
 		// Check input data
-		if (tableInstance.getFields() == null)
+		if (tableInstance.getBaseFields() == null)
 			return false;
 
-		if (tableInstance.getFields().size() != this.tableFields.size())
+		if (tableInstance.getBaseFields().size() != this.tableBaseFields.size())
 			return false;
 
-		for (int iType = 0; iType < tableInstance.getFields().size(); ++iType) {
-			if (tableInstance.getFields().get(iType).getType() != this.tableFields.get(iType).getType())
+		if (tableInstance.getIntervalFields().size() != this.getTableIntervalFields().size())
+			return false;
+
+		
+		for (int iType = 0; iType < tableInstance.getBaseFields().size(); ++iType) {
+			if (tableInstance.getBaseFields().get(iType).getType() != this.tableBaseFields.get(iType).getType())
+				return false;
+		}
+		
+		for (int iType = 0; iType < tableInstance.getIntervalFields().size(); ++iType) {
+			if (!this.getTableIntervalFields().get(iType).checkValidIntervalFieldStringInstance(tableInstance.getIntervalFields().get(iType)))
 				return false;
 		}
 
@@ -110,9 +126,13 @@ public class Table {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Table name: " + this.tableName + "\n");
-		stringBuilder.append("Fields : \n");
-		for (int i = 0; i < tableFields.size(); ++i) {
-			stringBuilder.append((i + 1) + ". " + tableFields.get(i));
+		stringBuilder.append("BaseFields : \n");
+		for (int i = 0; i < tableBaseFields.size(); ++i) {
+			stringBuilder.append((i + 1) + ". " + tableBaseFields.get(i));
+		}
+		stringBuilder.append("IntervalFields : \n");
+		for (int i = 0; i < tableIntervalFields.size(); ++i) {
+			stringBuilder.append((i + 1) + ". " + tableIntervalFields.get(i));
 		}
 		stringBuilder.append("Connected tables: ");
 		for (Table table : foreignKeyTables) {
@@ -137,7 +157,8 @@ public class Table {
 	public class TableBuilder {
 
 		private TableBuilder() {
-			tableFields = new ArrayList<TableField>();
+			tableBaseFields = new ArrayList<BaseField>();
+			tableIntervalFields = new ArrayList<IntervalField>();
 			foreignKeyTables = new HashSet<Table>();
 			tableInstances = new ArrayList<TableInstance>();
 		}
@@ -147,8 +168,13 @@ public class Table {
 			return this;
 		}
 
-		public TableBuilder addTableField(TableField tableField) {
-			Table.this.tableFields.add(tableField);
+		public TableBuilder addTableBaseField(BaseField baseField) {
+			Table.this.tableBaseFields.add(baseField);
+			return this;
+		}
+		
+		public TableBuilder addTableIntervalField(IntervalField intetvalField) {
+			Table.this.tableIntervalFields.add(intetvalField);
 			return this;
 		}
 

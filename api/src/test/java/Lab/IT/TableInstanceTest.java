@@ -4,20 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import db.table.TableInstance;
-import db.table.field.TableFieldInstance;
-import db.table.field.TableFieldType;
+import db.table.field.base.BaseFieldInstance;
+import db.table.field.base.BaseFieldType;
 import junit.framework.TestCase;
 
 public class TableInstanceTest extends TestCase {
 
 	public void testEqualsTableInstance() throws Exception {
 		TableInstance ti1 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1", new Integer(1), TableFieldType.INTEGER))
-				.addTableFieldInstance(new TableFieldInstance("tf2", new Double(1.0), TableFieldType.REAL)).build();
+				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(1), BaseFieldType.INTEGER))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2", new Double(1.0), BaseFieldType.REAL)).build();
 
 		TableInstance ti2 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1", new Integer(1), TableFieldType.INTEGER))
-				.addTableFieldInstance(new TableFieldInstance("tf2", new Double(1.0), TableFieldType.REAL)).build();
+				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(1), BaseFieldType.INTEGER))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2", new Double(1.0), BaseFieldType.REAL)).build();
 
 		Set<TableInstance> st = new HashSet<TableInstance>();
 		st.add(ti1);
@@ -25,8 +25,8 @@ public class TableInstanceTest extends TestCase {
 		assertTrue(st.size() == 1);
 
 		TableInstance ti3 = TableInstance.tableInstanceBuilder()
-				.addTableFieldInstance(new TableFieldInstance("tf1", new Integer(1), TableFieldType.INTEGER))
-				.addTableFieldInstance(new TableFieldInstance("tf2", new Long(12), TableFieldType.LONGINT)).build();
+				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(1), BaseFieldType.INTEGER))
+				.addBaseFieldInstance(new BaseFieldInstance("tf2", new Long(12), BaseFieldType.LONGINT)).build();
 
 		st.add(ti3);
 		assertTrue(st.size() == 2);

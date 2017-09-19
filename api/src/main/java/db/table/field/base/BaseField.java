@@ -1,15 +1,17 @@
-package db.table.field;
+package db.table.field.base;
 
-public class TableField {
+import db.table.field.IField;
+
+public class BaseField implements IField{
 	protected String tableFieldName;
-	protected TableFieldType type;
+	protected BaseFieldType type;
 
-	public TableField(String tableFieldName, TableFieldType type) {
+	public BaseField(String tableFieldName, BaseFieldType type) {
 		this.tableFieldName = tableFieldName;
 		this.type = type;
 	}
 
-	public TableFieldType getType() {
+	public BaseFieldType getType() {
 		return type;
 	}
 
@@ -26,8 +28,8 @@ public class TableField {
 			return false;
 		if (this == object)
 			return true;
-		if (object instanceof TableField) {
-			TableField tmpTableField = (TableField) object;
+		if (object instanceof BaseField) {
+			BaseField tmpTableField = (BaseField) object;
 			if (!this.tableFieldName.equals(tmpTableField.tableFieldName)) {
 				return false;
 			}

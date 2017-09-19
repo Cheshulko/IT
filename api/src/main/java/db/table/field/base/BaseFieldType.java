@@ -1,16 +1,16 @@
-package db.table.field;
+package db.table.field.base;
 
-public enum TableFieldType {
+public enum BaseFieldType {
 	INTEGER("INTEGER"), REAL("REAL"), CHAR("CHAR"), LONGINT("LONGINT"), STRING("STRING");
 
 	private final String tableFieldTypeName;
 
-	private TableFieldType(String tableFieldTypeName) {
+	private BaseFieldType(String tableFieldTypeName) {
 		this.tableFieldTypeName = tableFieldTypeName;
 	}
 
 	public static boolean contains(String type) {
-		for (TableFieldType c : TableFieldType.values()) {
+		for (BaseFieldType c : BaseFieldType.values()) {
 			if (c.name().equals(type)) {
 				return true;
 			}
@@ -18,8 +18,8 @@ public enum TableFieldType {
 		return false;
 	}
 
-	public static TableFieldType getTableFieldType(String tableFieldTypeName) {
-		for (TableFieldType c : TableFieldType.values()) {
+	public static BaseFieldType getTableFieldType(String tableFieldTypeName) {
+		for (BaseFieldType c : BaseFieldType.values()) {
 			if (c.name().equals(tableFieldTypeName)) {
 				return c;
 			}
