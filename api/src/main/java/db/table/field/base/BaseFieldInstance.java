@@ -13,6 +13,10 @@ public class BaseFieldInstance extends BaseField{
 		this.type = type;
 	}
 
+	public Object getData(){
+		return data;
+	}
+	
 	public boolean equals(Object object) {
 		if (object == null)
 			return false;

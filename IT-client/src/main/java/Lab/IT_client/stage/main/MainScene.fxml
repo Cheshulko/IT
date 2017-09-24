@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Lab.IT_client.stage.main.MainSceneController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <TableView fx:id="dbTable" prefHeight="150.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="dbNameColumn" maxWidth="1.7976931348623157E308" prefWidth="148.0" text="DB Name" />
+         </columns>
+      </TableView>
+   </left>
+   <center>
+      <TableView fx:id="tableTable" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="tableNameColumn" prefWidth="148.0" text="Table Name" />
+        </columns>
+      </TableView>
+   </center>
+   <right>
+      <VBox>
+         <children>
+            <TableView fx:id="tableInstanceTable" prefHeight="444.0" prefWidth="500.0" BorderPane.alignment="CENTER" />
+            <HBox prefHeight="131.0" prefWidth="500.0">
+               <children>
+                  <VBox fx:id="vBoxInputFields" maxHeight="131.0" maxWidth="395.0" prefHeight="131.0" prefWidth="395.0" />
+                  <Button mnemonicParsing="false" onMouseClicked="#addTableInstance" text="Add">
+                     <HBox.margin>
+                        <Insets bottom="50.0" left="10.0" right="10.0" top="50.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
