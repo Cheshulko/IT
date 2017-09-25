@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import db.table.Table;
+import db.table.field.base.BaseFieldInstance;
 
-public class DB implements Serializable{
+public class DB implements Serializable {
 	/**
 	 * 
 	 */
@@ -37,14 +38,18 @@ public class DB implements Serializable{
 	}
 
 	public Boolean contains(String tableName) {
+		Table tmpTable = null;
 		try {
-			if (this.tables.contains(Table.tableBuilder().setTableName(tableName).build()))
-				return true;
+			tmpTable = Table.tableBuilder().setTableName(tableName).build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return this.contains(tmpTable);
+	}
+
+	public Boolean contains(Table table) {
+		return this.tables.contains(table);
 	}
 
 	/*
@@ -52,13 +57,20 @@ public class DB implements Serializable{
 	 */
 	public Boolean createTable(Table table) {
 		// Check if table with that name already exist
-		for (Table t : tables) {
-			if (t.getTableName() == table.getTableName()) {
-				return false;
-			}
-		}
-		this.tables.add(table);
-		return true;
+		Boolean haveTable = this.tables.stream().filter(x -> x.getTableName().equals(table.getTableName())).findAny()
+				.isPresent();
+
+		if (!haveTable) {
+			this.tables.add(table);
+			return true;
+		} else
+			return false;
+		// for (Table t : tables) {
+		// if (t.getTableName() == table.getTableName()) {
+		// return false;
+		// }
+		// }
+
 	}
 
 	/*
@@ -69,6 +81,10 @@ public class DB implements Serializable{
 		return tables.remove(table);
 	}
 
+	public int hashCode() {
+		return this.getDbName().hashCode();
+	}
+
 	public boolean equals(Object object) {
 		if (object == null)
 			return false;
@@ -76,11 +92,17 @@ public class DB implements Serializable{
 			return true;
 		if (object instanceof DB) {
 			DB tmpTable = (DB) object;
-			if (this.getDbName() == tmpTable.getDbName())
+			if (this.getDbName().equals(tmpTable.getDbName()))
 				return true;
 			return false;
 		}
 		return false;
+	}
+
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder("DB name: " + this.getDbName() + "\n");
+		this.tables.stream().forEach(x -> stringBuilder.append(x.toString()));
+		return stringBuilder.toString();
 	}
 
 }

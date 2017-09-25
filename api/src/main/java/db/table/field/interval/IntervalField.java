@@ -1,8 +1,10 @@
 package db.table.field.interval;
 
+import java.io.Serializable;
+
 import db.table.field.IField;
 
-public class IntervalField implements IField{
+public class IntervalField implements IField, Serializable{
 
 	private char startIntvFrom;
 	private char endIntvTo;

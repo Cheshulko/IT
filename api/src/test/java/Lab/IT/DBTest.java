@@ -76,9 +76,6 @@ public class DBTest extends TestCase {
 				.addTableBaseField(new BaseField("field1", BaseFieldType.REAL))
 				.addTableBaseField(new BaseField("field2", BaseFieldType.CHAR)).build();
 
-		MainTable.addForeignKeyTable(OneToMainTable);
-		OneToMainTable.addForeignKeyTable(MainTable);
-
 		// Add TableInstance
 		TableInstance tiForMainTable_1 = TableInstance.tableInstanceBuilder()
 				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(15), BaseFieldType.INTEGER))

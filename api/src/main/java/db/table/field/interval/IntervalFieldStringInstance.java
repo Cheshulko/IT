@@ -1,6 +1,8 @@
 package db.table.field.interval;
 
-public class IntervalFieldStringInstance {
+import java.io.Serializable;
+
+public class IntervalFieldStringInstance implements Serializable {
 
 	private String tableIntervalFieldName;
 	private String stringBase;

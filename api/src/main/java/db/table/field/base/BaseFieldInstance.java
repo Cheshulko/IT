@@ -1,6 +1,8 @@
 package db.table.field.base;
 
-public class BaseFieldInstance extends BaseField{
+import java.io.Serializable;
+
+public class BaseFieldInstance extends BaseField implements Serializable{
 
 	private Object data;
 
@@ -27,20 +29,21 @@ public class BaseFieldInstance extends BaseField{
 			if (!super.equals(object)) {
 				return false;
 			}
-			switch (this.type) {
-			case CHAR:
-				return ((Character) this.data).equals((Character) tmpTableFieldInstance.data);
-			case STRING:
-				return ((String) this.data).equals((String) tmpTableFieldInstance.data);
-			case INTEGER:
-				return ((Integer) this.data).equals((Integer) tmpTableFieldInstance.data);
-			case LONGINT:
-				return ((Long) this.data).equals((Long) tmpTableFieldInstance.data);
-			case REAL:
-				return ((Double) this.data).equals((Double) tmpTableFieldInstance.data);
-			default:
-				return false;
-			}
+//			switch (this.type) {
+//			case CHAR:
+//				return ((Character) this.data).equals((Character) tmpTableFieldInstance.data);
+//			case STRING:
+//				return ((String) this.data).equals((String) tmpTableFieldInstance.data);
+//			case INTEGER:
+//				return ((Integer) this.data).equals((Integer) tmpTableFieldInstance.data);
+//			case LONGINT:
+//				return ((Long) this.data).equals((Long) tmpTableFieldInstance.data);
+//			case REAL:
+//				return ((Double) this.data).equals((Double) tmpTableFieldInstance.data);
+//			default:
+//				return false;
+//			}
+			return this.data.equals(tmpTableFieldInstance.data);
 		}
 		return false;
 	}

@@ -1,5 +1,6 @@
 package db.table;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.UUID;
 import db.table.field.base.BaseFieldInstance;
 import db.table.field.interval.IntervalFieldStringInstance;
 
-public class TableInstance{
+public class TableInstance implements Serializable{
 
 	private String index = null;
 	private List<BaseFieldInstance> baseFields = null;

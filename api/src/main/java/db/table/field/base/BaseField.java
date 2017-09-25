@@ -1,8 +1,10 @@
 package db.table.field.base;
 
+import java.io.Serializable;
+
 import db.table.field.IField;
 
-public class BaseField implements IField{
+public class BaseField implements IField, Serializable{
 	protected String tableFieldName;
 	protected BaseFieldType type;
 

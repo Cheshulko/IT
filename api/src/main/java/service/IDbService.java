@@ -1,7 +1,12 @@
 package service;
 
+import java.util.ArrayList;
+
 import db.DB;
 
 public interface IDbService {
-	public DB createDB(String dbName);
+	
+	public Boolean createDB(DB db);
+
+	public ArrayList<DB> getDbs();
 }

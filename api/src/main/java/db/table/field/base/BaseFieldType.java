@@ -1,6 +1,6 @@
 package db.table.field.base;
 
-public enum BaseFieldType {
+public enum BaseFieldType{
 	INTEGER("INTEGER"), REAL("REAL"), CHAR("CHAR"), LONGINT("LONGINT"), STRING("STRING");
 
 	private final String tableFieldTypeName;
@@ -23,6 +23,12 @@ public enum BaseFieldType {
 			if (c.name().equals(tableFieldTypeName)) {
 				return c;
 			}
+		}
+		try {
+			throw new Exception("No tableFieldTypeName");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}

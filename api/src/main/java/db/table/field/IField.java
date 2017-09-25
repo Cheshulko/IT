@@ -1,6 +1,6 @@
 package db.table.field;
 
-public interface IField {
+public interface IField{
 
 	public String getTableFieldName();
 

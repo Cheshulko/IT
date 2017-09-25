@@ -120,6 +120,15 @@ public class MainSceneController {
 		}
 		createViewTableInstance(selecteTable);
 	}
+	
+	public void deleteTableInstance(){
+		System.out.println("Cliked delete btn");
+		TableInstance tableInstance = tableInstanceTable.getSelectionModel().getSelectedItem();
+		Table selecteTable = tableTable.getSelectionModel().getSelectedItem();
+		if(tableInstance == null || selecteTable == null) return;
+		selecteTable.delteTableInstance(tableInstance);
+		createViewTableInstance(selecteTable);	
+	}
 
 	private void getDbTables(DB db) {
 		tableInstanceTable.getItems().clear();
