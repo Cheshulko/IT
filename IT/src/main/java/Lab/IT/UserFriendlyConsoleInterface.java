@@ -83,8 +83,10 @@ public class UserFriendlyConsoleInterface {
 			try {
 				TableInstance tableInstance = tableInstanceBuilder.build();
 				Boolean OK = table.addTableInstance(tableInstance);
-				if(OK) System.out.println("Table instance is successful added to table");
-				else System.out.println("Wrong input!");
+				if (OK)
+					System.out.println("Table instance is successful added to table");
+				else
+					System.out.println("Wrong input!");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

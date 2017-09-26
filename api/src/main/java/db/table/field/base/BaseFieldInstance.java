@@ -6,8 +6,44 @@ public class BaseFieldInstance extends BaseField implements Serializable{
 
 	private Object data;
 
+	public static Object createValidFromString(String data, BaseFieldType baseFieldType){
+		Object crData;
+		switch (baseFieldType) {
+		case CHAR:{
+			if(data.length() != 1)
+				try {
+					throw new Exception("Invalid input");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			crData = data.charAt(0);
+			break;
+		}			
+		case STRING:{
+			crData = data;
+			break;
+		}
+		case INTEGER:{
+			crData = Integer.parseInt(data);
+			break;
+		}
+		case LONGINT:{
+			crData = Long.parseLong(data);
+			break;
+		}
+		case REAL:{
+			crData = Double.parseDouble(data);
+			break;
+		}
+		default:
+			crData = null;
+		}
+		return crData;
+	}
+	
 	public BaseFieldInstance(String tableFieldName, Object data, BaseFieldType type) {
-		super(tableFieldName, type);
+		super(tableFieldName, type);		
 		this.data = data;
 	}
 
@@ -29,20 +65,6 @@ public class BaseFieldInstance extends BaseField implements Serializable{
 			if (!super.equals(object)) {
 				return false;
 			}
-//			switch (this.type) {
-//			case CHAR:
-//				return ((Character) this.data).equals((Character) tmpTableFieldInstance.data);
-//			case STRING:
-//				return ((String) this.data).equals((String) tmpTableFieldInstance.data);
-//			case INTEGER:
-//				return ((Integer) this.data).equals((Integer) tmpTableFieldInstance.data);
-//			case LONGINT:
-//				return ((Long) this.data).equals((Long) tmpTableFieldInstance.data);
-//			case REAL:
-//				return ((Double) this.data).equals((Double) tmpTableFieldInstance.data);
-//			default:
-//				return false;
-//			}
 			return this.data.equals(tmpTableFieldInstance.data);
 		}
 		return false;

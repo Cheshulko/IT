@@ -1,5 +1,7 @@
 package Lab.IT;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,33 +9,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 
+import db.DB;
 import db.table.Storage;
+import db.table.Table;
+import db.table.TableInstance;
+import db.table.field.base.BaseField;
+import db.table.field.base.BaseFieldInstance;
+import db.table.field.base.BaseFieldType;
 import server.service.DbService;
 import server.service.TableService;
 import service.IDbService;
 import service.ITableService;
 
-//import service.DbService;
-
-/**
- * Hello world!
- *
- */
-//
 @ComponentScan({ "server" })
 @SpringBootApplication
 public class App {
-	// public static void main(String[] args) {
-	// System.out.println("Hello World!");
-	// UserFriendlyConsoleInterface.start();
-	// }
 
 	@Autowired
 	private DbService dbService;
-	
+
 	@Autowired
 	private TableService tableService;
-	
+
 	@Bean(name = "/dbservice")
 	HttpInvokerServiceExporter dbService() {
 		HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
@@ -57,7 +54,53 @@ public class App {
 
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
-
 		// UserFriendlyConsoleInterface.start();
+	}
+
+	@PostConstruct
+	public void init() {
+		DB db1 = new DB("first");
+		DB db2 = new DB("second");
+		DB db3 = new DB("third");
+		Table tb1_1 = null;
+		Table tb1_2 = null;
+		try {
+			tb1_1 = Table.tableBuilder().setTableName("table1")
+					.addTableBaseField(new BaseField("field1_1", BaseFieldType.INTEGER))
+					.addTableBaseField(new BaseField("field2_1", BaseFieldType.REAL)).build();
+			tb1_2 = Table.tableBuilder().setTableName("table2")
+					.addTableBaseField(new BaseField("field1_2", BaseFieldType.INTEGER))
+					.addTableBaseField(new BaseField("field2_2", BaseFieldType.REAL))
+					.addTableBaseField(new BaseField("field3_2", BaseFieldType.STRING)).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dbService.createDB(db1);
+		dbService.createDB(db2);
+		dbService.createDB(db3);
+
+		tableService.addTable(db1, tb1_1);
+		tableService.addTable(db1, tb1_2);
+
+		try {
+			tableService.addTableInstance(tb1_1,
+					TableInstance.tableInstanceBuilder()
+							.addBaseFieldInstance(new BaseFieldInstance("field1_1", 1, BaseFieldType.INTEGER))
+							.addBaseFieldInstance(new BaseFieldInstance("field2_1", 1.23, BaseFieldType.REAL)).build());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			tableService.addTableInstance(tb1_2, TableInstance.tableInstanceBuilder()
+					.addBaseFieldInstance(new BaseFieldInstance("field1_2", 1123, BaseFieldType.INTEGER))
+					.addBaseFieldInstance(new BaseFieldInstance("field2_2", 11.23, BaseFieldType.REAL))
+					.addBaseFieldInstance(new BaseFieldInstance("field3_2", "asdasd", BaseFieldType.STRING)).build());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

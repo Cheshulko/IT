@@ -95,7 +95,7 @@ public class Table implements Serializable{
 			return true;
 		if (object instanceof Table) {
 			Table tmpTable = (Table) object;
-			if (this.getTableName() != tmpTable.getTableName())
+			if (!this.getTableName().equals(tmpTable.getTableName()))
 				return false;
 			return true;
 		}

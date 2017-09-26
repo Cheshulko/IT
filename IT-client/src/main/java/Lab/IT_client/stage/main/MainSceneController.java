@@ -1,7 +1,9 @@
 package Lab.IT_client.stage.main;
 
-import Lab.IT_client.App;
-import ch.qos.logback.core.net.SyslogOutputStream;
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import db.DB;
 import db.table.Table;
 import db.table.TableInstance;
@@ -9,19 +11,18 @@ import db.table.TableInstance.TableInstanceBuilder;
 import db.table.field.base.BaseField;
 import db.table.field.base.BaseFieldInstance;
 import db.table.field.base.BaseFieldType;
-import fake.FakeDB;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import service.IDbService;
+import service.ITableService;
 
 public class MainSceneController {
 
@@ -40,7 +41,14 @@ public class MainSceneController {
 	@FXML
 	private VBox vBoxInputFields;
 
-	private App app;
+	private DB stateDB;
+	private Table stateTable;
+
+	@Autowired
+	private IDbService dbService;
+
+	@Autowired
+	private ITableService tableService;
 
 	public MainSceneController() {
 
@@ -52,52 +60,47 @@ public class MainSceneController {
 			StringProperty stringProperty = new SimpleStringProperty(cellData.getValue().getDbName());
 			return stringProperty;
 		});
-		
+
 		tableNameColumn.setCellValueFactory(cellData -> {
 			StringProperty stringProperty = new SimpleStringProperty(cellData.getValue().getTableName());
 			return stringProperty;
 		});
 
 		dbTable.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> getDbTables(newValue));
+				.addListener((observable, oldValue, newValue) -> createViewDbTables(newValue));
 
 		tableTable.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> createViewTableInstance(newValue));
 	}
 
-	public void setDataFromFakeDB(FakeDB fakeDB) {
-		dbTable.setItems(fakeDB.getDb());
-	}
-
-	private ObservableList<Table> cre(DB db) {
-		ObservableList<Table> table = FXCollections.observableArrayList(db.getTables());
-		return table;
-	}
-
 	private void createViewTableInstance(Table table) {
-		if (table == null) return;
+		if (table == null) {
+			System.out.println("table == null");
+			return;
+		}
+		// update();
 		System.out.println(table.getTableName());
 		tableInstanceTable.getColumns().clear();
 		vBoxInputFields.getChildren().clear();
-		
+
 		for (int i = 0; i < table.getTableBaseFields().size(); ++i) {
 			final int finalIdx = i;
 			BaseField currentBaseField = table.getTableBaseFields().get(i);
-			System.out.println(currentBaseField.getTableFieldName());
 			String columnId = currentBaseField.getTableFieldName() + ":" + currentBaseField.getType();
+
 			TableColumn<TableInstance, String> col = new TableColumn<>(columnId);
 			TextField textField = new TextField();
 			textField.setId(columnId);
 			textField.setPromptText(currentBaseField.getTableFieldName());
 			vBoxInputFields.getChildren().add(textField);
-			System.out.println();
+
 			col.setCellValueFactory(cellValue -> new ReadOnlyObjectWrapper<>(
 					cellValue.getValue().getBaseFields().get(finalIdx).getData().toString()));
 			tableInstanceTable.getColumns().add(col);
 		}
 
 		tableInstanceTable.getItems().clear();
-		
+
 		for (int i = 0; i < table.getTableInstances().size(); ++i) {
 			tableInstanceTable.getItems().add(table.getTableInstances().get(i));
 		}
@@ -107,47 +110,71 @@ public class MainSceneController {
 		System.out.println("Cliked Add btn");
 		Table selecteTable = tableTable.getSelectionModel().getSelectedItem();
 		TableInstanceBuilder tableInstanceBuilder = TableInstance.tableInstanceBuilder();
+
 		for (int i = 0; i < vBoxInputFields.getChildren().size(); ++i) {
 			TextField textField = (TextField) vBoxInputFields.getChildren().get(i);
+			BaseFieldType baseFieldType = BaseFieldType.getTableFieldType(textField.getId().split(":")[1]);
+
 			tableInstanceBuilder.addBaseFieldInstance(new BaseFieldInstance(textField.getId().split(":")[0],
-					textField.getText(), BaseFieldType.getTableFieldType(textField.getId().split(":")[1])));
+					BaseFieldInstance.createValidFromString(textField.getText(), baseFieldType), baseFieldType));
 		}
 		try {
-			selecteTable.addTableInstance(tableInstanceBuilder.build());
+			tableService.addTableInstance(selecteTable, tableInstanceBuilder.build());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		update();
 		createViewTableInstance(selecteTable);
 	}
-	
-	public void deleteTableInstance(){
+
+	public void deleteTableInstance() {
 		System.out.println("Cliked delete btn");
 		TableInstance tableInstance = tableInstanceTable.getSelectionModel().getSelectedItem();
 		Table selecteTable = tableTable.getSelectionModel().getSelectedItem();
-		if(tableInstance == null || selecteTable == null) return;
-		selecteTable.delteTableInstance(tableInstance);
-		createViewTableInstance(selecteTable);	
+
+		if (tableInstance == null || selecteTable == null)
+			return;
+
+		tableService.delteTableInstance(selecteTable, tableInstance);
+		update();
+		createViewTableInstance(selecteTable);
 	}
 
-	private void getDbTables(DB db) {
+	private void createViewDbTables(DB db) {
 		tableInstanceTable.getItems().clear();
 		tableInstanceTable.getColumns().clear();
 
-		if (db != null) {
-			System.out.println(db.getDbName());
-			tableTable.setItems(cre(db));
-			tableNameColumn.setCellValueFactory(cellData -> {
-				StringProperty stringProperty = new SimpleStringProperty(cellData.getValue().getTableName());
-				return stringProperty;
-			});
-		}
+		stateDB = db;
+
+		if (db == null)
+			return;
+
+		tableTable.setItems(FXCollections.observableArrayList(db.getTables()));
+		tableNameColumn.setCellValueFactory(cellData -> {
+			StringProperty stringProperty = new SimpleStringProperty(cellData.getValue().getTableName());
+			return stringProperty;
+		});
+
 	}
 
-	// public void setApp(App app) {
-	// this.app = app;
-	// dbTable.setItems();
-	// // Добавление в таблицу данных из наблюдаемого списка
-	// //personTable.setItems(mainApp.getPersonData());
-	// }
+	private void update() {
+		dbTable.getItems().clear();
+		tableInstanceTable.getItems().clear();
+		tableInstanceTable.getColumns().clear();
+
+		dbTable.setItems(FXCollections.observableArrayList(dbService.getDbs()));
+		dbTable.getSelectionModel().select(stateDB);
+
+		// tableTable.setItems(FXCollections.observableArrayList());
+	}
+
+	@PostConstruct
+	public void init() {
+		System.out.println("Start init @PostConstruct");
+		System.out.println(dbService != null);
+		update();
+		System.out.println(dbTable.getItems().size());
+		initialize();
+	}
 }
