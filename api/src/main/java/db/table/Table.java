@@ -26,16 +26,33 @@ public class Table implements Serializable{
 		return tableName;
 	}
 
+	public void getTableName(String tableName) {
+		this.tableName = tableName;
+	}
+	
 	public List<BaseField> getTableBaseFields() {
 		return tableBaseFields;
 	}
+	
+	public void setTableBaseFields(List<BaseField> tableBaseFields) {
+		this.tableBaseFields = tableBaseFields;
+	}
+	
 
 	public List<IntervalField> getTableIntervalFields() {
 		return tableIntervalFields;
 	}
 
+	public void setTableIntervalFields(List<IntervalField> tableIntervalFields) {
+		this.tableIntervalFields = tableIntervalFields;
+	}
+	
 	public List<TableInstance> getTableInstances() {
 		return tableInstances;
+	}
+	
+	public void setTableInstances(List<TableInstance> tableInstances) {
+		this.tableInstances = tableInstances;
 	}
 
 	public TableInstance getTableInstanceByIndex(String index) {

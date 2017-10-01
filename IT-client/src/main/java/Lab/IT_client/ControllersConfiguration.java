@@ -11,9 +11,6 @@ import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import Lab.IT_client.stage.main.MainSceneController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-//import ru.habrahabr.Application;
-//import ru.habrahabr.ControllersConfiguration.ViewHolder;
-//import ru.habrahabr.ui.MainController;
 import service.IDbService;
 import service.ITableService;
 

@@ -1,0 +1,25 @@
+{
+   "tableName":"table2",
+   "tableBaseFields":[
+      {
+         "tableFieldName":"field1_2",
+         "type":"INTEGER"
+      },
+      {
+         "tableFieldName":"field2_2",
+         "type":"REAL"
+      },
+      {
+         "tableFieldName":"field3_2",
+         "type":"STRING"
+      }
+   ],
+   "tableIntervalFields":[
+   ],
+   "tableInstances":[
+   ]
+}
+
+
+
+tableJson="{"tableName":"table1","tableBaseFields":[{"tableFieldName":"field1_1","type":"INTEGER"},{"tableFieldName":"field2_1","type":"REAL"}],"tableIntervalFields":[],"tableInstances":[]}"

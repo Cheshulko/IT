@@ -16,6 +16,10 @@ public class BaseField implements IField, Serializable{
 	public BaseFieldType getType() {
 		return type;
 	}
+	
+	public void setType(BaseFieldType type) {
+		this.type = type;
+	}
 
 	public String getTableFieldName() {
 		return tableFieldName;
