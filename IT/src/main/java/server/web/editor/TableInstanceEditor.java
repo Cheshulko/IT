@@ -30,8 +30,8 @@ public class TableInstanceEditor extends PropertyEditorSupport {
 
 	    tableInstanceBaseFields.forEach(x -> tableInstanceBuilder
 		    .addBaseFieldInstance(new BaseFieldInstance(
-			    x.path("tableFieldName").textValue(), x.path("data"),
-			    BaseFieldType.getTableFieldType(
+			    x.path("tableFieldName").textValue(),
+			    x.path("data"), BaseFieldType.getTableFieldType(
 				    x.path("type").textValue()))));
 
 	    tableInstance = tableInstanceBuilder.build();

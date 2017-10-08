@@ -29,7 +29,8 @@ public class TableController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
 	binder.registerCustomEditor(Table.class, new TableEditor());
-	binder.registerCustomEditor(TableInstance.class, new TableInstanceEditor());
+	binder.registerCustomEditor(TableInstance.class,
+		new TableInstanceEditor());
     }
 
     @Autowired
@@ -84,7 +85,7 @@ public class TableController {
 	return new ResponseEntity<String>("Db " + dbName + " does not exist",
 		HttpStatus.BAD_REQUEST);
     }
-   
+
     @RequestMapping(method = RequestMethod.POST, value = "/db/{dbName}/table/{tableName}")
     public ResponseEntity addTableInstanceByTableAndDB(
 	    @PathVariable(value = "dbName") String dbName,
@@ -97,7 +98,7 @@ public class TableController {
 	Table table = tableService.getTable(db, tableName);
 	if (table != null) {
 	    Boolean res = table.addTableInstance(tableInstance);
-	    if(res == true) {
+	    if (res == true) {
 		return new ResponseEntity(table, HttpStatus.OK);
 	    }
 	    return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -105,19 +106,4 @@ public class TableController {
 	return new ResponseEntity<String>("Db " + dbName + " does not exist",
 		HttpStatus.BAD_REQUEST);
     }
-    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
