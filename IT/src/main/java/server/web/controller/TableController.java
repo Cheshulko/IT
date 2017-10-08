@@ -17,9 +17,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import db.DB;
 import db.table.Storage;
 import db.table.Table;
+import db.table.TableInstance;
 import server.service.DbService;
 import server.service.TableService;
 import server.web.editor.TableEditor;
+import server.web.editor.TableInstanceEditor;
 
 @RestController
 public class TableController {
@@ -27,6 +29,7 @@ public class TableController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
 	binder.registerCustomEditor(Table.class, new TableEditor());
+	binder.registerCustomEditor(TableInstance.class, new TableInstanceEditor());
     }
 
     @Autowired
@@ -81,4 +84,40 @@ public class TableController {
 	return new ResponseEntity<String>("Db " + dbName + " does not exist",
 		HttpStatus.BAD_REQUEST);
     }
+   
+    @RequestMapping(method = RequestMethod.POST, value = "/db/{dbName}/table/{tableName}")
+    public ResponseEntity addTableInstanceByTableAndDB(
+	    @PathVariable(value = "dbName") String dbName,
+	    @PathVariable(value = "tableName") String tableName,
+	    @RequestParam(value = "tableInstanceJson") TableInstance tableInstance)
+	    throws Exception {
+	System.out.println("POST /db/" + dbName + "/table/" + tableName
+		+ " getDb " + dbName);
+	DB db = dbService.getDB(dbName);
+	Table table = tableService.getTable(db, tableName);
+	if (table != null) {
+	    Boolean res = table.addTableInstance(tableInstance);
+	    if(res == true) {
+		return new ResponseEntity(table, HttpStatus.OK);
+	    }
+	    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+	}
+	return new ResponseEntity<String>("Db " + dbName + " does not exist",
+		HttpStatus.BAD_REQUEST);
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
