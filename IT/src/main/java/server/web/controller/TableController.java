@@ -1,5 +1,7 @@
 package server.web.controller;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import server.web.editor.TableInstanceEditor;
 @RestController
 public class TableController {
 
+    private final Logger logger = LogManager.getLogger(this.getClass());
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
 	binder.registerCustomEditor(Table.class, new TableEditor());
@@ -42,7 +46,7 @@ public class TableController {
     @RequestMapping(method = RequestMethod.GET, value = "/db/{dbName}/table")
     public ResponseEntity getTablesByDB(
 	    @PathVariable(value = "dbName") String dbName) throws Exception {
-	System.out.println("GET /db/" + dbName + "/table getDb " + dbName);
+	logger.info("GET /db/" + dbName + "/table method: getDb");
 	DB result = dbService.getDB(dbName);
 	if (result != null) {
 	    return new ResponseEntity(result.getTables(), HttpStatus.OK);
@@ -55,8 +59,7 @@ public class TableController {
     public ResponseEntity createTableByDB(
 	    @PathVariable(value = "dbName") String dbName,
 	    @RequestParam(value = "tableJson") Table table) throws Exception {
-
-	System.out.println("GET /db/" + dbName + "/table getDb " + dbName);
+	logger.info("GET /db/" + dbName + "/table method: getDb");
 	Boolean result = false;
 	DB db = dbService.getDB(dbName);
 	if (db != null) {
@@ -75,8 +78,8 @@ public class TableController {
 	    @PathVariable(value = "dbName") String dbName,
 	    @PathVariable(value = "tableName") String tableName)
 	    throws Exception {
-	System.out.println("GET /db/" + dbName + "/table/" + tableName
-		+ " getDb " + dbName);
+	logger.info(
+		"GET /db/" + dbName + "/table/" + tableName + " method: getDb");
 	DB db = dbService.getDB(dbName);
 	Table table = tableService.getTable(db, tableName);
 	if (table != null) {
@@ -92,8 +95,8 @@ public class TableController {
 	    @PathVariable(value = "tableName") String tableName,
 	    @RequestParam(value = "tableInstanceJson") TableInstance tableInstance)
 	    throws Exception {
-	System.out.println("POST /db/" + dbName + "/table/" + tableName
-		+ " getDb " + dbName);
+	logger.info("POST /db/" + dbName + "/table/" + tableName
+		+ " method: getDb");
 	DB db = dbService.getDB(dbName);
 	Table table = tableService.getTable(db, tableName);
 	if (table != null) {

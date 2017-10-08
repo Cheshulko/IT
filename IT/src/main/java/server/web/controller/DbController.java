@@ -1,5 +1,7 @@
 package server.web.controller;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,14 @@ import server.service.DbService;
 // @RequestMapping("/db")
 public class DbController {
 
+    private final Logger logger = LogManager.getLogger(this.getClass());
+
     @Autowired
     private DbService dbService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/db")
     public String all() throws Exception {
-	System.out.println("GET /db/ all");
+	logger.info("GET /db/ method: all");
 	StringBuilder stringBuilder = new StringBuilder();
 	dbService.getDbs().stream()
 		.forEach(db -> stringBuilder.append(db.toString()));
@@ -33,7 +37,7 @@ public class DbController {
     @RequestMapping(method = RequestMethod.POST, value = "/db")
     public ResponseEntity createDb(@RequestParam String dbName)
 	    throws Exception {
-	System.out.println("POST /db/ createDb " + dbName);
+	logger.info("POST /db/ method: createDb");
 	DB db = new DB(dbName);
 	Boolean result = dbService.createDB(db);
 	if (result == true) {
@@ -46,7 +50,7 @@ public class DbController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/db")
     public ResponseEntity deleteDb(@RequestParam String dbName)
 	    throws Exception {
-	System.out.println("DELETE /db/ deleteDb " + dbName);
+	logger.info("DELETE /db/ method: deleteDb");
 	Boolean result = dbService.deleteDB(dbName);
 	if (result == true) {
 	    return new ResponseEntity<>(HttpStatus.OK);
@@ -58,7 +62,7 @@ public class DbController {
     @RequestMapping(method = RequestMethod.GET, value = "/db/{dbName}")
     public ResponseEntity getDb(@PathVariable(value = "dbName") String dbName)
 	    throws Exception {
-	System.out.println("GET /db/" + dbName + " getDb " + dbName);
+	logger.info("GET /db/ " + dbName + " method: getDb");
 	DB result = dbService.getDB(dbName);
 	if (result != null) {
 	    return new ResponseEntity<DB>(result, HttpStatus.OK);
