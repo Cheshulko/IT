@@ -13,10 +13,6 @@
          "tableFieldName":"field3_2",
          "type":"STRING"
       }
-   ],
-   "tableIntervalFields":[
-   ],
-   "tableInstances":[
    ]
 }
 

@@ -26,12 +26,9 @@ public class DbController {
     private DbService dbService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/db")
-    public String all() throws Exception {
+    public ResponseEntity all() throws Exception {
 	logger.info("GET /db/ method: all");
-	StringBuilder stringBuilder = new StringBuilder();
-	dbService.getDbs().stream()
-		.forEach(db -> stringBuilder.append(db.toString()));
-	return stringBuilder.toString();
+	return new ResponseEntity(dbService.getDbs(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/db")
