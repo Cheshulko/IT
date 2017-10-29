@@ -19,6 +19,8 @@ public class TableInstanceEditor extends PropertyEditorSupport {
     public void setAsText(String text) throws IllegalArgumentException {
 	ObjectMapper mapper = new ObjectMapper();
 
+	System.out.println("In tableInst edit");
+	
 	TableInstance tableInstance = null;
 
 	try {
@@ -31,7 +33,7 @@ public class TableInstanceEditor extends PropertyEditorSupport {
 	    tableInstanceBaseFields.forEach(x -> tableInstanceBuilder
 		    .addBaseFieldInstance(new BaseFieldInstance(
 			    x.path("tableFieldName").textValue(),
-			    x.path("data"), BaseFieldType.getTableFieldType(
+			    x.path("data").textValue(), BaseFieldType.getTableFieldType(
 				    x.path("type").textValue()))));
 
 	    tableInstance = tableInstanceBuilder.build();

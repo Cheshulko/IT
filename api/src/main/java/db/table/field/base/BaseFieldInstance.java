@@ -2,37 +2,37 @@ package db.table.field.base;
 
 import java.io.Serializable;
 
-public class BaseFieldInstance extends BaseField implements Serializable{
+public class BaseFieldInstance extends BaseField implements Serializable {
 
 	private Object data;
 
-	public static Object createValidFromString(String data, BaseFieldType baseFieldType){
+	public static Object createValidFromString(String data, BaseFieldType baseFieldType) {
 		Object crData;
 		switch (baseFieldType) {
-		case CHAR:{
-			if(data.length() != 1)
+		case CHAR: {
+			if (data.length() != 1)
 				try {
 					throw new Exception("Invalid input");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
+				}
 			crData = data.charAt(0);
 			break;
-		}			
-		case STRING:{
+		}
+		case STRING: {
 			crData = data;
 			break;
 		}
-		case INTEGER:{
+		case INTEGER: {
 			crData = Integer.parseInt(data);
 			break;
 		}
-		case LONGINT:{
+		case LONGINT: {
 			crData = Long.parseLong(data);
 			break;
 		}
-		case REAL:{
+		case REAL: {
 			crData = Double.parseDouble(data);
 			break;
 		}
@@ -41,20 +41,42 @@ public class BaseFieldInstance extends BaseField implements Serializable{
 		}
 		return crData;
 	}
-	
+
 	public BaseFieldInstance(String tableFieldName, Object data, BaseFieldType type) {
-		super(tableFieldName, type);		
-		this.data = data;
+		super(tableFieldName, type);
+		Object parseData = null;
+		if(data != null) {
+			String stringData = data.toString();			
+			switch (type) {
+			case CHAR:
+				parseData = ((Character) stringData.charAt(0));
+				break;
+			case STRING:
+				parseData = ((String) stringData);
+				break;
+			case INTEGER:
+				parseData = Integer.parseInt(stringData);
+				break;
+			case LONGINT:
+				parseData = Long.parseLong(stringData);
+				break;
+			case REAL:
+				parseData = Double.parseDouble(stringData);
+				break;
+			}
+		}
+		
+		this.data = parseData;
 	}
 
 	public void setType(BaseFieldType type) {
 		this.type = type;
 	}
 
-	public Object getData(){
+	public Object getData() {
 		return data;
 	}
-	
+
 	public boolean equals(Object object) {
 		if (object == null)
 			return false;
