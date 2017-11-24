@@ -6,6 +6,12 @@ import junit.framework.TestCase;
 
 public class TableFieldTest extends TestCase {
 
+	public void testTableFieldTypeContains() {
+		assertTrue(BaseFieldType.contains("INTEGER"));
+		assertTrue(BaseFieldType.contains("LONGINT"));
+		assertTrue(!BaseFieldType.contains("APPLE"));
+	}
+	
 	public void testEqualsTableField() {
 		BaseFieldInstance tf1 = new BaseFieldInstance("tf1", new Integer(12), BaseFieldType.INTEGER);
 		BaseFieldInstance tf1_1 = new BaseFieldInstance("tf1", new Integer(12), BaseFieldType.INTEGER);

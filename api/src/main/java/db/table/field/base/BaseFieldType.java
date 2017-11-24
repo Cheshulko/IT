@@ -1,35 +1,31 @@
 package db.table.field.base;
 
-public enum BaseFieldType{
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+public enum BaseFieldType {
 	INTEGER("INTEGER"), REAL("REAL"), CHAR("CHAR"), LONGINT("LONGINT"), STRING("STRING");
 
 	private final String tableFieldTypeName;
+	private static final Map<String, BaseFieldType> lookup = new HashMap<String, BaseFieldType>();
 
-	private BaseFieldType(String tableFieldTypeName) {
+	static {
+		for (BaseFieldType baseFieldType : EnumSet.allOf(BaseFieldType.class)) {
+			lookup.put(baseFieldType.tableFieldTypeName, baseFieldType);
+		}
+	}
+
+	BaseFieldType(String tableFieldTypeName) {
 		this.tableFieldTypeName = tableFieldTypeName;
 	}
 
 	public static boolean contains(String type) {
-		for (BaseFieldType c : BaseFieldType.values()) {
-			if (c.name().equals(type)) {
-				return true;
-			}
-		}
-		return false;
+		return (lookup.get(type) != null);
 	}
 
 	public static BaseFieldType getTableFieldType(String tableFieldTypeName) {
-		for (BaseFieldType c : BaseFieldType.values()) {
-			if (c.name().equals(tableFieldTypeName)) {
-				return c;
-			}
-		}
-		try {
-			throw new Exception("No tableFieldTypeName");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		return lookup.get(tableFieldTypeName);		
 	}
 
 	@Override
