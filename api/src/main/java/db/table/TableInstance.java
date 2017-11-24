@@ -13,9 +13,10 @@ import db.table.field.interval.IntervalFieldStringInstance;
 public class TableInstance implements Serializable{
 
 	private String index = null;
+	private static final long serialVersionUID = 1L;	
 	private List<BaseFieldInstance> baseFields = null;
-	private List<IntervalFieldStringInstance> intervalFields = null;
 	private Set<TableInstance> foreignKeyTableInstances = null;
+	private List<IntervalFieldStringInstance> intervalFields = null;	
 
 	private TableInstance() {
 		index = UUID.randomUUID().toString();
@@ -74,9 +75,6 @@ public class TableInstance implements Serializable{
 		return new TableInstance().new TableInstanceBuilder();
 	}
 
-	/*
-	 * Create TableInstanceBuilder to build a table
-	 */
 	public class TableInstanceBuilder {
 
 		private TableInstanceBuilder() {

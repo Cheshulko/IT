@@ -9,15 +9,13 @@ import java.util.Set;
 import db.table.field.base.BaseField;
 import db.table.field.interval.IntervalField;
 
-public class Table implements Serializable{
-	// Table name field
+public class Table implements Serializable {
+
 	private String tableName = null;
-	// Fix structure of a table
 	private List<BaseField> tableBaseFields = null;
-	//
-	private List<IntervalField> tableIntervalFields = null;
-	// List of table instances
+	private static final long serialVersionUID = 1L;
 	private List<TableInstance> tableInstances = null;
+	private List<IntervalField> tableIntervalFields = null;
 
 	private Table() {
 	}
@@ -29,15 +27,14 @@ public class Table implements Serializable{
 	public void getTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	
+
 	public List<BaseField> getTableBaseFields() {
 		return tableBaseFields;
 	}
-	
+
 	public void setTableBaseFields(List<BaseField> tableBaseFields) {
 		this.tableBaseFields = tableBaseFields;
 	}
-	
 
 	public List<IntervalField> getTableIntervalFields() {
 		return tableIntervalFields;
@@ -46,23 +43,17 @@ public class Table implements Serializable{
 	public void setTableIntervalFields(List<IntervalField> tableIntervalFields) {
 		this.tableIntervalFields = tableIntervalFields;
 	}
-	
+
 	public List<TableInstance> getTableInstances() {
 		return tableInstances;
 	}
-	
+
 	public void setTableInstances(List<TableInstance> tableInstances) {
 		this.tableInstances = tableInstances;
 	}
 
 	public TableInstance getTableInstanceByIndex(String index) {
 		return this.tableInstances.stream().filter(x -> x.getIndex().equals(index)).findAny().get();
-
-//		for (int i = 0; i < tableInstances.size(); ++i) {
-//			if (tableInstances.get(i).getIndex().equals(index))
-//				return tableInstances.get(i);
-//		}
-//		return null;
 	}
 
 	public Boolean isTableInstance(TableInstance tableInstance) {
@@ -94,11 +85,7 @@ public class Table implements Serializable{
 		return tableInstances.remove(tableInstance);
 	}
 
-	/*
-	 * Check input data and add table instance
-	 */
 	public Boolean addTableInstance(TableInstance tableInstance) {
-		// Check input data
 		if (!isTableInstance(tableInstance))
 			return false;
 		tableInstances.add(tableInstance);
@@ -123,7 +110,6 @@ public class Table implements Serializable{
 		return tableName.hashCode();
 	}
 
-	// Unnecessary function just for lab :)
 	public void deleteDuplicates() {
 		Set<TableInstance> tmpTi = new HashSet<TableInstance>();
 		for (int i = 0; i < tableInstances.size(); ++i) {
@@ -161,9 +147,6 @@ public class Table implements Serializable{
 		return new Table().new TableBuilder();
 	}
 
-	/*
-	 * Create TableBuilder to build a table
-	 */
 	public class TableBuilder {
 
 		private TableBuilder() {
@@ -188,7 +171,6 @@ public class Table implements Serializable{
 		}
 
 		public Table build() throws Exception {
-			// Check if indexField is set
 			if (tableName == null)
 				throw new Exception("indexTableFieldType or tableName doesn't set");
 			return Table.this;

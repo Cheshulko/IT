@@ -4,46 +4,46 @@ import java.io.Serializable;
 
 import db.table.field.IField;
 
-public class IntervalField implements IField, Serializable{
+public class IntervalField implements IField, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private char startIntvFrom;
 	private char endIntvTo;
-	
+
 	protected String tableIntervalFieldName;
-	public static String type = "CHARINTV"; 
-	
-	public IntervalField(char startIntvFrom, char endIntvTo, String tableIntervalFieldName){
-		
+	public static String type = "CHARINTV";
+
+	public IntervalField(char startIntvFrom, char endIntvTo, String tableIntervalFieldName) {
+
 		if (startIntvFrom > endIntvTo)
 			try {
 				throw new Exception("EndIntvTo is less than startIntvFrom");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		else {
 			this.setStartIntvFrom(startIntvFrom);
 			this.setEndIntvTo(endIntvTo);
 		}
-		
+
 		this.setStartIntvFrom(startIntvFrom);
 		this.setEndIntvTo(endIntvTo);
 		this.tableIntervalFieldName = tableIntervalFieldName;
 	}
-	
-	public Boolean checkValidIntervalFieldStringInstance(IntervalFieldStringInstance intervalFieldStringInstance){
+
+	public Boolean checkValidIntervalFieldStringInstance(IntervalFieldStringInstance intervalFieldStringInstance) {
 		Boolean result = true;
 		result &= (this.startIntvFrom <= intervalFieldStringInstance.getStringBaseMin());
 		result &= (this.endIntvTo >= intervalFieldStringInstance.getStringBaseMax());
 		return result;
 	}
-	
+
 	public String getTableFieldName() {
 		return tableIntervalFieldName;
 	}
 
 	public void setTableFieldName(String tableIntervalFieldName) {
-		this.tableIntervalFieldName = tableIntervalFieldName;		
+		this.tableIntervalFieldName = tableIntervalFieldName;
 	}
 
 	@Override
@@ -70,5 +70,5 @@ public class IntervalField implements IField, Serializable{
 	public void setEndIntvTo(char endIntvTo) {
 		this.endIntvTo = endIntvTo;
 	}
-	
+
 }

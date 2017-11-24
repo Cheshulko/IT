@@ -66,17 +66,14 @@ public class TableTest extends TestCase {
 	public void testAddTableInstance() throws Exception {
 		Boolean result = null;
 
-		// Test wrong indexTableField
 		result = testTable.addTableInstance(TableInstance.tableInstanceBuilder().addBaseFieldInstance(null).build());
 		assertTrue(result == false);
 
-		// Test wrong table fields
 		result = testTable.addTableInstance(TableInstance.tableInstanceBuilder()
 				.addBaseFieldInstance(new BaseFieldInstance("tf1", null, BaseFieldType.STRING))
 				.addBaseFieldInstance(new BaseFieldInstance("tf2", null, BaseFieldType.REAL)).build());
 		assertTrue(result == false);
 
-		// Test OK situation
 		result = testTable.addTableInstance(TableInstance.tableInstanceBuilder()
 				.addBaseFieldInstance(new BaseFieldInstance("tf1", null, BaseFieldType.INTEGER))
 				.addBaseFieldInstance(new BaseFieldInstance("tf2", null, BaseFieldType.REAL)).build());

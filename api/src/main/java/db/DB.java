@@ -5,12 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import db.table.Table;
-import db.table.field.base.BaseFieldInstance;
 
 public class DB implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String dbName;
 	private Set<Table> tables = null;
@@ -24,6 +20,10 @@ public class DB implements Serializable {
 		return tables;
 	}
 
+	public String getDbName() {
+		return dbName;
+	}
+	
 	public Table getTableByName(String tableName) {
 		for (Table table : tables) {
 			if (table.getTableName().equals(tableName)) {
@@ -31,18 +31,13 @@ public class DB implements Serializable {
 			}
 		}
 		return null;
-	}
-
-	public String getDbName() {
-		return dbName;
-	}
+	}	
 
 	public Boolean contains(String tableName) {
 		Table tmpTable = null;
 		try {
 			tmpTable = Table.tableBuilder().setTableName(tableName).build();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return this.contains(tmpTable);
@@ -65,19 +60,9 @@ public class DB implements Serializable {
 			return true;
 		} else
 			return false;
-		// for (Table t : tables) {
-		// if (t.getTableName() == table.getTableName()) {
-		// return false;
-		// }
-		// }
-
 	}
 
-	/*
-	 * Remove table from a base
-	 */
 	public Boolean removeTable(Table table) {
-		// FIXME Need to check for relation
 		return tables.remove(table);
 	}
 

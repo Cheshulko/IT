@@ -27,7 +27,6 @@ public enum BaseFieldType{
 		try {
 			throw new Exception("No tableFieldTypeName");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

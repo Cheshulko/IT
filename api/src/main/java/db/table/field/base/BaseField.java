@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import db.table.field.IField;
 
-public class BaseField implements IField, Serializable{
-	protected String tableFieldName;
+public class BaseField implements IField, Serializable {
+
 	protected BaseFieldType type;
+	protected String tableFieldName;
+	private static final long serialVersionUID = 1L;
 
 	public BaseField(String tableFieldName, BaseFieldType type) {
 		this.tableFieldName = tableFieldName;
@@ -16,7 +18,7 @@ public class BaseField implements IField, Serializable{
 	public BaseFieldType getType() {
 		return type;
 	}
-	
+
 	public void setType(BaseFieldType type) {
 		this.type = type;
 	}

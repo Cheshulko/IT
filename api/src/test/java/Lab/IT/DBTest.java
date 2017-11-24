@@ -42,7 +42,6 @@ public class DBTest extends TestCase {
 		Table table2 = createTestTable("Table2");
 		Table table3 = createTestTable("Table3");
 
-		// Check creating
 		result = db.createTable(table1);
 		assertTrue(result == true);
 
@@ -55,7 +54,6 @@ public class DBTest extends TestCase {
 
 		result = db.createTable(table3);
 
-		// Check removing
 		result = db.removeTable(table2);
 		assertTrue(result == true);
 		assertTrue(db.getTables().size() == 2);
@@ -76,7 +74,6 @@ public class DBTest extends TestCase {
 				.addTableBaseField(new BaseField("field1", BaseFieldType.REAL))
 				.addTableBaseField(new BaseField("field2", BaseFieldType.CHAR)).build();
 
-		// Add TableInstance
 		TableInstance tiForMainTable_1 = TableInstance.tableInstanceBuilder()
 				.addBaseFieldInstance(new BaseFieldInstance("tf1", new Integer(15), BaseFieldType.INTEGER))
 				.addBaseFieldInstance(new BaseFieldInstance("tf2", new Double(15.5), BaseFieldType.REAL)).build();
@@ -104,7 +101,6 @@ public class DBTest extends TestCase {
 		tiForMainTable_2.addForeignKeyTableInstances(tiForOneToMainTable_2);
 		tiForOneToMainTable_2.addForeignKeyTableInstances(tiForMainTable_2);
 
-		// Check ForeignKeyTableInstances
 		assertTrue(tiForMainTable_1.getForeignKeyTableInstances().size() == 1);
 		assertTrue(tiForMainTable_1.getForeignKeyTableInstances().contains(tiForOneToMainTable_1));
 		assertTrue(tiForOneToMainTable_1.getForeignKeyTableInstances().size() == 1);

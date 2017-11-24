@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class BaseFieldInstance extends BaseField implements Serializable {
 
 	private Object data;
+	private static final long serialVersionUID = 1L;	
 
 	public static Object createValidFromString(String data, BaseFieldType baseFieldType) {
 		Object crData;
@@ -14,7 +15,6 @@ public class BaseFieldInstance extends BaseField implements Serializable {
 				try {
 					throw new Exception("Invalid input");
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			crData = data.charAt(0);

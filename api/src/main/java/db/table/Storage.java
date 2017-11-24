@@ -6,8 +6,9 @@ import java.util.Set;
 
 import db.DB;
 
-public class Storage implements Serializable{
+public class Storage implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Set<DB> dbs = null;
 
 	private Storage() {
@@ -15,8 +16,8 @@ public class Storage implements Serializable{
 	}
 
 	public static final Storage Instance = new Storage();
-	
-	public Set<DB> getDbs(){
+
+	public Set<DB> getDbs() {
 		return dbs;
 	}
 

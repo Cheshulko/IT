@@ -23,8 +23,6 @@ public class TableFieldTest extends TestCase {
 		BaseFieldInstance tf7_7 = new BaseFieldInstance("tf7", new Long(15), BaseFieldType.LONGINT);
 		BaseFieldInstance tf8 = new BaseFieldInstance("tf8", new Long(17), BaseFieldType.LONGINT);
 
-		// FIXME Add HTML
-
 		assertTrue(tf1.equals(tf1_1));
 		assertTrue(!tf1.equals(tf2));
 
