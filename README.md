@@ -4,6 +4,13 @@
 git clone https://github.com/Cheshulko/IT.git
 cd IT
 ```
+### API
+
+Build api 
+```sh
+cd api
+mvn clean install
+```
 
 ### Server
 
